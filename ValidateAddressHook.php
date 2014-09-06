@@ -42,10 +42,7 @@
 class ValidateAddressHook extends Frontend
 {
 
-    // XXX: extension countryselect must be installed
-    // TODO: check more than one form
-
-    var $formId = '3';
+    var $formIds = array('auto_form_1', 'auto_form_2', 'auto_form_3', 'auto_form_4', 'auto_form_6');
     var $widgetNameForPostalCode = 'postal_code';
     var $widgetNameForCity = 'city';
     var $widgetNameForCountry = 'country';
@@ -53,11 +50,13 @@ class ValidateAddressHook extends Frontend
 
     public function validateAddressField(Widget $objWidget, $formId)
     {
-        if ($formId != 'auto_form_' . $this->formId) {
+        if (!in_array($formId, $this->formIds))
+        {
             return $objWidget;
         }
 
-        switch ($objWidget->name) {
+        switch ($objWidget->name)
+        {
             case $this->widgetNameForPostalCode:
                 $postal_code = $objWidget->value;
                 $city = $this->Input->post($this->widgetNameForCity);
